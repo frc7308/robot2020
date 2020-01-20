@@ -115,8 +115,16 @@ public class Robot extends TimedRobot {
         double magentaSum = 0; 
         double yellowSum = 0;
         double kSum = 0;
+
+ 
+        for(int i = 0; i <= 640, i ++){
+          double[] pixel = (double[])imageMatrix.get(0,i);
+          cyanSum += pixel[0];
+          magentaSum += pixel[1];
+          yellowSum += pixel[2];
+        }
   
-        double[] pixel1 = (double[])imageMatrix.get((int)(Math.floor(imageMatrix.rows() /  2)), (int)(Math.floor(imageMatrix.cols() / 2)));
+        /*double[] pixel1 = (double[])imageMatrix.get((int)(Math.floor(imageMatrix.rows() /  2)), (int)(Math.floor(imageMatrix.cols() / 2)));
         cyanSum += pixel1[0];
         magentaSum += pixel1[1];
         yellowSum += pixel1[2];
@@ -138,7 +146,7 @@ public class Robot extends TimedRobot {
         cyanSum += pixel4[0];
         magentaSum += pixel4[1];
         yellowSum += pixel4[2];
-        // kSum += pixel4[3];
+        // kSum += pixel4[3]; */
   
         double cyanAverage  = cyanSum / 4.0;
         double magentaAverage = magentaSum / 4.0;
