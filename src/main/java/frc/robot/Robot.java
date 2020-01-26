@@ -161,11 +161,13 @@ public class Robot extends TimedRobot {
           }
         }
 
+        System.out.println("Yellow Pixel Count is: " + yellowCount + "Red Pixel Count is: " + redCount + "Green Pixel Count is: " + greenCount + "Blue Pixel Count is: " + blueCount);
+
         double cyanAverage  = cyanSum / 19200.0;
         double magentaAverage = magentaSum / 19200.0;
         double yellowAverage = yellowSum / 19200.0;
 
-        if (yellowCount == 19200) {
+        /*if (yellowCount == 19200) {
           System.out.println("Current Color is: Yellow");
         }
         else if (greenCount == 19200) {
@@ -191,8 +193,8 @@ public class Robot extends TimedRobot {
         }
         else {
           System.out.println("Current Color is: Unknown");
-          System.out.println(cyanAverage + " " + magentaAverage + " " + yellowAverage + " "/* + kAverage*/);
-        }
+          System.out.println(cyanAverage + " " + magentaAverage + " " + yellowAverage + " "/* + kAverage);
+        }*/
   
         /*double[] pixel1 = (double[])imageMatrix.get((int)(Math.floor(imageMatrix.rows() /  2)), (int)(Math.floor(imageMatrix.cols() / 2)));
         cyanSum += pixel1[0];
@@ -218,7 +220,7 @@ public class Robot extends TimedRobot {
         yellowSum += pixel4[2];
         // kSum += pixel4[3]; */
   
-        double cyanAverage  = cyanSum / 4.0;
+        /*double cyanAverage  = cyanSum / 4.0;
         double magentaAverage = magentaSum / 4.0;
         double yellowAverage = yellowSum / 4.0;
         // double kAverage = kSum / 4.0;
@@ -258,7 +260,7 @@ public class Robot extends TimedRobot {
         if (_lastRecognizedColor == WheelColor.UNKNOWN) {
           // We don't know what the color is, print out the raw values for tuning. 
           System.out.println(cyanAverage + " " + magentaAverage + " " + yellowAverage + " "/* + kAverage*/);
-        }
+        }*/
     }
   
     }
