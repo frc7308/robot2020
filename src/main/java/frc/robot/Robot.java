@@ -259,7 +259,7 @@ public class Robot extends TimedRobot {
         System.out.println("Current Color is: " + wheelColorDescription(_lastRecognizedColor));
         if (_lastRecognizedColor == WheelColor.UNKNOWN) {
           // We don't know what the color is, print out the raw values for tuning. 
-          System.out.println(cyanAverage + " " + magentaAverage + " " + yellowAverage + " "/* + kAverage*/);
+          System.out.println(cyanAverage + " " + magentaAverage + " " + yellowAverage + " "/* + kAverage);
         }*/
     }
   
