@@ -12,11 +12,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.CameraServer;
 
-import frc.robot.LoopMaster;
+/*import frc.robot.LoopMaster;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Launcher;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Intake;*/
 
 import org.opencv.core.Mat;
 import org.opencv.core.Core;
@@ -27,14 +27,15 @@ import java.util.ArrayList;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
+import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
-  public static Drivetrain drivetrain;
+  /*public static Drivetrain drivetrain;
   public static Lift lift;
   public static Launcher launcher;
   public static Intake intake;
   private Compressor compressor;
-  private LoopMaster loopMaster;
+  private LoopMaster loopMaster;*/
 
   private UsbCamera testCamera;
   WheelColor _lastRecognizedColor;
@@ -114,14 +115,83 @@ public class Robot extends TimedRobot {
         double cyanSum = 0;
         double magentaSum = 0; 
         double yellowSum = 0;
-        double kSum = 0;
+        //double kSum = 0;
 
- 
-        for(int i = 0; i <= 640, i ++){
-          double[] pixel = (double[])imageMatrix.get(0,i);
-          cyanSum += pixel[0];
-          magentaSum += pixel[1];
-          yellowSum += pixel[2];
+        int yellowCount = 0;
+        int redCount = 0;
+        int blueCount = 0;
+        int greenCount = 0;
+
+        WheelColor newRecognizedColor = WheelColor.UNKNOWN;
+
+        for(int i = 0; i <= 120; i ++){
+
+          for (int a = 0; a <= 160; a ++) {
+            double[] pixel = (double[])imageMatrix.get(a,i);
+            cyanSum += pixel[0];
+            magentaSum += pixel[1];
+            yellowSum += pixel[2];
+
+            // TODO: Should retest this values with the better camera
+            if (cyanSum < 100 && cyanSum > 60 && magentaSum > 170 && yellowSum > 140  && yellowSum < 150) {
+              // Yellow
+              // TODO: Needs more tuning to get this color right. 
+              newRecognizedColor = WheelColor.YELLOW;
+              yellowCount += 1;
+            }
+            else if (cyanSum < 160 && cyanSum > 60 && magentaSum > 90 && magentaSum < 110 && yellowSum > 220){
+              // Red 
+              newRecognizedColor = WheelColor.RED;
+              redCount += 1;
+            }
+            else if (cyanSum > 200 && magentaSum < 160 && magentaSum > 140 && yellowSum < 50){
+              // Blue
+              newRecognizedColor = WheelColor.BLUE; 
+              blueCount += 1;
+            }
+            else if (cyanSum > 120 && cyanSum < 150 && magentaSum < 175 && magentaSum > 150 && yellowSum  > 80 && yellowSum < 100){
+              // Green
+              newRecognizedColor = WheelColor.GREEN;
+              greenCount += 1;
+            }
+            else {
+              // Unknown
+              newRecognizedColor = WheelColor.UNKNOWN;
+            }
+          }
+        }
+
+        double cyanAverage  = cyanSum / 19200.0;
+        double magentaAverage = magentaSum / 19200.0;
+        double yellowAverage = yellowSum / 19200.0;
+
+        if (yellowCount == 19200) {
+          System.out.println("Current Color is: Yellow");
+        }
+        else if (greenCount == 19200) {
+          System.out.println("Current Color is: Green");
+        }
+        else if (blueCount == 19200) {
+          System.out.println("Current Color is: Blue");
+        }
+        else if (redCount == 19200) {
+          System.out.println("Current Color is: Red");
+        }
+        else if (yellowCount >= 6400 && yellowCount <= 9600 && redCount >= 6400 && redCount <= 9600) {
+          System.out.println("Camera is between: Yellow and Red");
+        }
+        else if (redCount >= 6400 && redCount <= 9600 && greenCount >= 6400 && greenCount <= 9600) {
+          System.out.println("Camera is between: Red and Green");
+        }
+        else if (greenCount >= 6400 && greenCount <= 9600 && blueCount >= 6400 && blueCount <= 9600) {
+          System.out.println("Camera is between: Green and Blue");
+        }
+        else if (blueCount >= 6400 && blueCount <= 9600 && yellowCount >= 6400 && yellowCount <= 9600) {
+          System.out.println("Camera is between: Blue and Yellow");
+        }
+        else {
+          System.out.println("Current Color is: Unknown");
+          System.out.println(cyanAverage + " " + magentaAverage + " " + yellowAverage + " "/* + kAverage*/);
         }
   
         /*double[] pixel1 = (double[])imageMatrix.get((int)(Math.floor(imageMatrix.rows() /  2)), (int)(Math.floor(imageMatrix.cols() / 2)));
@@ -193,7 +263,7 @@ public class Robot extends TimedRobot {
   
     }
 
-  @Override
+  /*@Override
   public void autonomousInit() {
     loopMaster.setGameState("Autonomous");
   }
@@ -225,5 +295,5 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     loopMaster.setGameState("Disabled");
-  }
+  }*/
 }
