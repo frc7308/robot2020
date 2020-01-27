@@ -55,10 +55,10 @@ public class Robot extends TimedRobot {
     loopMaster.addLoop(launcher.controlLoop);
     loopMaster.addLoop(intake.controlLoop);
     loopMaster.start();
-
+*/
     // Start the compressor
-    this.compressor = new Compressor();
-    compressor.start();*/
+    //this.compressor = new Compressor();
+    //compressor.start();
     _lastRecognizedColor = WheelColor.UNKNOWN;
   }
 
@@ -104,10 +104,10 @@ public class Robot extends TimedRobot {
           around the middle of the screen and grab the average color of all the edges
       */
       // Grab the values from the center of the image print
-      double[] pixelA = imageMatrix.get((int)(Math.floor(imageMatrix.rows() /  2)), (int)(Math.floor(imageMatrix.cols() / 2)));
-      double[] pixelB = imageMatrix.get((int)(Math.ceil(imageMatrix.rows() /  2)), (int)(Math.floor(imageMatrix.cols() / 2)));
-      double[] pixelC = imageMatrix.get((int)(Math.floor(imageMatrix.rows() /  2)), (int)(Math.ceil(imageMatrix.cols() / 2)));
-      double[] pixelD = imageMatrix.get((int)(Math.ceil(imageMatrix.rows() /  2)), (int)(Math.ceil(imageMatrix.cols() / 2)));
+      //double[] pixelA = imageMatrix.get((int)(Math.floor(imageMatrix.rows() /  2)), (int)(Math.floor(imageMatrix.cols() / 2)));
+      //double[] pixelB = imageMatrix.get((int)(Math.ceil(imageMatrix.rows() /  2)), (int)(Math.floor(imageMatrix.cols() / 2)));
+      //double[] pixelC = imageMatrix.get((int)(Math.floor(imageMatrix.rows() /  2)), (int)(Math.ceil(imageMatrix.cols() / 2)));
+      //double[] pixelD = imageMatrix.get((int)(Math.ceil(imageMatrix.rows() /  2)), (int)(Math.ceil(imageMatrix.cols() / 2)));
   
       var testThing = imageMatrix.get(0,0);
   
@@ -121,9 +121,14 @@ public class Robot extends TimedRobot {
         int redCount = 0;
         int blueCount = 0;
         int greenCount = 0;
+        int unknownCount = 0;
 
         WheelColor newRecognizedColor = WheelColor.UNKNOWN;
 
+        // nested loop that goes through every pixel in the image
+        // finds cyan, magenta, and yellow values at each pixel and if those
+        //  values are within the range for either red, green, blue, or yellow, the pixel count of that color
+        //  in the image increases by one
         for(int i = 0; i <= 120; i ++){
 
           for (int a = 0; a <= 160; a ++) {
@@ -157,11 +162,83 @@ public class Robot extends TimedRobot {
             else {
               // Unknown
               newRecognizedColor = WheelColor.UNKNOWN;
+              unknownCount += 1;
             }
           }
         }
 
-        System.out.println("Yellow Pixel Count is: " + yellowCount + "Red Pixel Count is: " + redCount + "Green Pixel Count is: " + greenCount + "Blue Pixel Count is: " + blueCount);
+        //System.out.println("Yellow Pixel Count is: " + yellowCount + "Red Pixel Count is: " + redCount + "Green Pixel Count is: " + greenCount + "Blue Pixel Count is: " + blueCount);
+
+        // tests to see which color is the majority in the image
+        // also finds which color is the second majority
+        if (yellowCount > blueCount && yellowCount > greenCount && yellowCount > redCount && yellowCount > unknownCount) {
+          System.out.println("Yellow is majority with " + yellowCount + " pixels in the image");
+
+          if (blueCount > redCount && blueCount > greenCount) {
+            System.out.println("Blue is the second majority " + blueCount + " pixels in the image");
+          }
+          else if (redCount > blueCount && redCount > greenCount) {
+            System.out.println("Red is the second majority " + redCount + " pixels in the image");
+          }
+          else if (greenCount > redCount && greenCount > blueCount) {
+            System.out.println("Green is the second majority " + greenCount + " pixels in the image");
+          }
+          else {
+            System.out.println("Second color majority is unknown");
+          }
+        }
+        else if (blueCount > yellowCount && blueCount > greenCount && blueCount > redCount && blueCount > unknownCount) {
+          System.out.println("Blue is majority with " + blueCount + " pixels in the image");
+
+          if (redCount > yellowCount && redCount > greenCount) {
+            System.out.println("Red is the second majority " + redCount + " pixels in the image");
+          }
+          else if (greenCount > redCount && greenCount > yellowCount) {
+            System.out.println("Green is the second majority " + greenCount + " pixels in the image");
+          }
+          else if (yellowCount > redCount && yellowCount > greenCount) {
+            System.out.println("Yellow is the second majority " + yellowCount + " pixels in the image");
+          }
+          else {
+            System.out.println("Second color majority is unknown");
+          }
+        }
+        else if (greenCount > blueCount && greenCount > yellowCount && greenCount > redCount && greenCount > unknownCount) {
+          System.out.println("Green is majority with " + greenCount + " pixels in the image");
+
+          if (blueCount > redCount && blueCount > yellowCount) {
+            System.out.println("Blue is the second majority " + blueCount + " pixels in the image");
+          }
+          else if (redCount > blueCount && redCount > yellowCount) {
+            System.out.println("Red is the second majority " + redCount + " pixels in the image");
+          }
+          else if (yellowCount > redCount && yellowCount > blueCount) {
+            System.out.println("Yellow is the second majority " + yellowCount + " pixels in the image");
+          }
+          else {
+            System.out.println("Second color majority is unknown");
+          }
+        }
+        else if (redCount > blueCount && redCount > greenCount && redCount > yellowCount && redCount > unknownCount) {
+          System.out.println("Red is majority with " + redCount + " pixels in the image");
+
+          if (blueCount > yellowCount && blueCount > greenCount) {
+            System.out.println("Blue is the second majority " + blueCount + " pixels in the image");
+          }
+          else if (yellowCount > blueCount && yellowCount > greenCount) {
+            System.out.println("Yellow is the second majority " + yellowCount + " pixels in the image");
+          }
+          else if (greenCount > yellowCount && greenCount > blueCount) {
+            System.out.println("Green is the second majority " + greenCount + " pixels in the image");
+          }
+          else {
+            System.out.println("Second color majority is unknown");
+          }
+        }
+        else {
+          System.out.println("Pixel colors are unknown");
+        }
+
 
         double cyanAverage  = cyanSum / 19200.0;
         double magentaAverage = magentaSum / 19200.0;
@@ -265,20 +342,20 @@ public class Robot extends TimedRobot {
   
     }
 
-  /*@Override
+  @Override
   public void autonomousInit() {
-    loopMaster.setGameState("Autonomous");
+  //  loopMaster.setGameState("Autonomous");
   }
 
   @Override
   public void autonomousPeriodic() {
     // Run Autonomous Scheduler
-    Scheduler.getInstance().run();
+  //  Scheduler.getInstance().run();
   }
 
   @Override
   public void teleopInit() {
-    loopMaster.setGameState("Teleop");
+   // loopMaster.setGameState("Teleop");
   }
 
   @Override
@@ -287,7 +364,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    loopMaster.setGameState("Test");
+   // loopMaster.setGameState("Test");
   }
 
   @Override
@@ -296,6 +373,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    loopMaster.setGameState("Disabled");
-  }*/
+   // loopMaster.setGameState("Disabled");
+  }
 }
