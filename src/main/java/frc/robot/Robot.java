@@ -37,7 +37,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
   private Joystick _joystick;
-  TalonSRX mytalon = new TalonSRX(0);
+  TalonSRX mytalon = new TalonSRX(6);
 
   /*public static Drivetrain drivetrain;
   public static Lift lift;
@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     _joystick = new Joystick(2);
-    mytalon.set(ControlMode.PercentOutput, 0);
+    mytalon.set(ControlMode.PercentOutput, _joystick.getX());
     // Initialize subsystems
     /*this.drivetrain = new Drivetrain();
     this.lift = new Lift();
