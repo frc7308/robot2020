@@ -36,6 +36,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 // import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Robot extends TimedRobot {
+  private Joystick _joystick;
+  TalonSRX mytalon = new TalonSRX(0);
+
   /*public static Drivetrain drivetrain;
   public static Lift lift;
   public static Launcher launcher;
@@ -44,13 +47,13 @@ public class Robot extends TimedRobot {
   private LoopMaster loopMaster;*/
 
 
-  private UsbCamera testCamera;
-  WheelColor _lastRecognizedColor;
-  private Joystick _joystick;
-  TalonSRX mytalon;
-
+  //private UsbCamera testCamera;
+  //WheelColor _lastRecognizedColor;
+  
   @Override
   public void robotInit() {
+    _joystick = new Joystick(2);
+    mytalon.set(ControlMode.PercentOutput, 0);
     // Initialize subsystems
     /*this.drivetrain = new Drivetrain();
     this.lift = new Lift();
@@ -68,14 +71,10 @@ public class Robot extends TimedRobot {
     // Start the compressor
     //this.compressor = new Compressor();
     //compressor.start();
-    _lastRecognizedColor = WheelColor.UNKNOWN;
-
-    _joystick = new Joystick(2);
-    mytalon = new TalonSRX(1);
-    
+    //_lastRecognizedColor = WheelColor.UNKNOWN;
   }
 
-  public enum WheelColor  {
+  /*public enum WheelColor  {
     BLUE, GREEN, RED, YELLOW, UNKNOWN
     }
   
@@ -100,7 +99,7 @@ public class Robot extends TimedRobot {
           break;
       }
       return description;
-    }
+    }*/
   
     @Override
     public void robotPeriodic() {
