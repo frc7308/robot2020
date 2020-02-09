@@ -20,6 +20,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.Intake;*/
+import frc.robot.subsystems.Tower;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Core;
@@ -45,6 +46,7 @@ public class Robot extends TimedRobot {
   public static Intake intake;
   private Compressor compressor;
   private LoopMaster loopMaster;*/
+  public static Tower tower;
 
 
   //private UsbCamera testCamera;
@@ -56,18 +58,18 @@ public class Robot extends TimedRobot {
     mytalon.set(ControlMode.PercentOutput, _joystick.getX());
     // Initialize subsystems
     /*this.drivetrain = new Drivetrain();
-    this.lift = new Lift();
-    this.launcher = new Launcher();
-    this.intake = new Intake();
+    this.lift = new Lift();*/
+    this.tower = new Tower();
+    //this.intake = new Intake();
 
     // Add subsystems to the loop master
-    this.loopMaster = new LoopMaster();
+    /*this.loopMaster = new LoopMaster();
     loopMaster.addLoop(drivetrain.controlLoop);
     loopMaster.addLoop(lift.controlLoop);
     loopMaster.addLoop(launcher.controlLoop);
     loopMaster.addLoop(intake.controlLoop);
-    loopMaster.start();
-*/
+    loopMaster.start();;*/
+
     // Start the compressor
     //this.compressor = new Compressor();
     //compressor.start();
