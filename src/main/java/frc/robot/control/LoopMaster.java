@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import frc.robot.util.GameState;
+import frc.robot.util.Constants;
 
 // Condenses all of the control loops into one to save roboRIO computing power.
 public class LoopMaster {
@@ -53,6 +54,6 @@ public class LoopMaster {
 
         // Start all of the loops using the TimerTask on the loop interval.
         loopTimer = new Timer();
-        //loopTimer.schedule(new LoopTask(), 0, Constants.kControlLoopInterval);
+        loopTimer.schedule(new LoopTask(), 0, Constants.kLoopInterval);
     }
 }

@@ -6,6 +6,7 @@ import frc.robot.util.GameState;
 import frc.robot.util.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import jaci.pathfinder.Pathfinder;
@@ -26,26 +27,37 @@ public class Drivetrain extends Subsystem {
         this.leftTalonMaster = new TalonFX(2);
         this.leftTalonFollower = new TalonFX(3);
         this.leftTalonFollower.follow(leftTalonMaster);
-        this.leftTalonMaster.setInverted(false);
+        this.leftTalonMaster.setInverted(true);
         this.leftTalonFollower.setInverted(true);
-
+        /*this.leftTalonMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        this.leftTalonMaster.config_kF(0, 0, 0);
+		this.leftTalonMaster.config_kP(0, 20);
+		this.leftTalonMaster.config_kI(0, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);*/
+        
         this.rightTalonMaster = new TalonFX(4);
         this.rightTalonFollower = new TalonFX(5);
         this.rightTalonFollower.follow(rightTalonMaster);
-        this.rightTalonMaster.setInverted(true);
+        this.rightTalonMaster.setInverted(false);
         this.rightTalonFollower.setInverted(false);
     }
 
     public final ControlLoop controlLoop = new ControlLoop() {
         @Override
+        public void loopInit() {
+
+        }
+
+        @Override
         public void loopPeriodic() {
             if (this.gameState == GameState.AUTO) {
-                // TODO (Isaac): PathFinder follower
+                
             } else if (this.gameState == GameState.TELEOP) {
                 double[] drive = DSInput.getDrive();
                 double[] curvatureDrive = curvatureDrive(drive[0], drive[1], false);
-                leftTalonMaster.set(ControlMode.Velocity, (Constants.kMaxDriveVelocity / 10) * curvatureDrive[0]);
-                rightTalonMaster.set(ControlMode.Velocity, (Constants.kMaxDriveVelocity / 10) * curvatureDrive[1]);
+                /*leftTalonMaster.set(ControlMode.Velocity, Constants.kMaxDriveVelocity * Constants.kMetersPerSecondToTicksPer100ms * curvatureDrive[0]);
+                rightTalonMaster.set(ControlMode.Velocity, Constants.kMaxDriveVelocity * Constants.kMetersPerSecondToTicksPer100ms * curvatureDrive[1]);*/
+                leftTalonMaster.set(ControlMode.PercentOutput, curvatureDrive[0]);
+                rightTalonMaster.set(ControlMode.PercentOutput, curvatureDrive[1]);
             }
         }
     };
